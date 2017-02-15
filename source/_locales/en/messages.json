@@ -1,0 +1,41 @@
+{
+  "extensionDescription": {
+    "message": "Automates appointment booking for private medical clinics in Poland."
+  },
+  "startSearchQuestion": {
+    "message": "You didn't find any visit."
+  },
+  "acceptAutoregQuestion": {
+    "message": "Kurzajka will automatically book the earliest available consultation appointment on your behalf. Please note that in case the conditions set out in your healthcare agreement are not met, you will be required to make a payment before the visit. By clicking \"I understand and accept\", you confirm that you fully understand all consequences of Kurzajka's auto booking functionality and you also confirm that you don't have a referral for this service."
+  },
+  "stopSearchQuestion": {
+    "message": "Kurzajka is searching"
+  },
+  "startSearch": {
+    "message": "Start periodic search"
+  },
+  "yes": {
+    "message": "Yes"
+  },
+  "no": {
+    "message": "No"
+  },
+  "acceptAutoreg": {
+    "message": "I understand and accept"
+  },
+  "stopSearch": {
+    "message": "Stop"
+  },
+  "visitFoundTitle": {
+    "message": "Found a visit!"
+  },
+  "autoregSuccessTitle": {
+    "message": "Consultation is booked!"
+  },
+  "autoregErrorTitle": {
+    "message": "Consultation couldn't be booked due to error!"
+  },
+  "autoReservationOption": {
+    "message": "Book a consultation"
+  }
+}

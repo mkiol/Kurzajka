@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+  "name": "Kurzajka",
+  "version": "1.2",
+  "author": "Michal Kosciesza <michal@mkiol.net>",
+  "description": "__MSG_extensionDescription__",
+  "icons": {
+    "48": "images/kurzajka-48.png",
+    "96": "images/kurzajka-96.png"
+  },
+
+  "web_accessible_resources": [
+    "images/*.png"
+  ],
+
+  "background": {
+    "scripts": ["main.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://portalpacjenta.luxmed.pl/PatientPortal/Reservations/Reservation/*"],
+      "js": ["luxmed.js"]
+    }
+  ],
+
+  "permissions": [
+    "notifications"
+  ],
+
+  "default_locale": "en",
+
+  "applications": {
+    "gecko": {
+      "id": "{c2134a21-b5d8-4f1e-be43-08c3d0694926}"
+    }
+  }
+}
