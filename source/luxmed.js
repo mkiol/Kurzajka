@@ -63,6 +63,7 @@ function getVisits() {
             date: date,
             hour: tdList[0].getAttribute("data-sort").trim(),
             button: tdList[0].querySelector("a.button"),
+            row: trList[i],
             doctor: divList[0].textContent.trim(),
             service: divList[1].textContent.trim(),
             venue: divList[2].textContent.trim()
@@ -222,20 +223,36 @@ function autoReg(visit) {
       } else {
         reject()
       }
-    }, 300)
+    }, 2000)
   })
+}
+
+function closePopup() {
+  // Close popup window
+  window.setTimeout(()=>{
+    const closeButton = document.querySelector("button._popupClose")
+    if (closeButton)
+      closeButton.click()
+  }, 1000)
+}
+
+function playSound() {
+  const audio = new Audio(browser.extension.getURL("res/music.mp3"))
+  audio.play()
 }
 
 function handleMessage(message) {
   // Handle messages received from browser script
-
   //console.log("handleMessage: ", message)
   const visits = getVisits()
   if (message.type === "search_on") {
     if (visits.length > 0) {
-      sendMessage({type: "search_finished", data: visits[0]})
+      visits[0].row.style.border = "10px solid magenta"
+      playSound()
       showToolbar("visit-found")
+      sendMessage({type: "search_finished"})
     } else {
+      closePopup()
       showToolbar("stop-search-question")
       timer = window.setTimeout(refresh, 10000)
     }
@@ -249,10 +266,10 @@ function handleMessage(message) {
 
     if (message.autoreg) {
       autoReg(visits[0]).then(()=>{
-        sendMessage({type: "autoreg_finished", success: true, data: visits[0]})
+        sendMessage({type: "autoreg_finished", success: true})
         showToolbar("autoreg-success")
       }, ()=>{
-        sendMessage({type: "autoreg_finished", success: false, data: visits[0]})
+        sendMessage({type: "autoreg_finished", success: false})
         showToolbar("autoreg-error")
       })
     }
@@ -261,9 +278,7 @@ function handleMessage(message) {
 
 function sendMessage(message) {
   // Send message to browser script
-  browser.runtime.sendMessage(message).then(handleMessage, ()=>{
-    console.log(`error: ${error}`)
-  })
+  browser.runtime.sendMessage(message).then(handleMessage)
 }
 
 function init() {

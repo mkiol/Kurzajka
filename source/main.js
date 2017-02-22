@@ -24,12 +24,12 @@ var searchEnabled = false
 var notifyEnabled = defaults.notify
 var autoregEnabled = defaults.autoreg
 
-function notify(title, content) {
+function notify(content) {
   // Show desktop notification
   browser.notifications.create({
     "type": "basic",
-    "iconUrl": browser.extension.getURL("images/kurzajka-48.png"),
-    "title": title,
+    "iconUrl": browser.extension.getURL("res/kurzajka-48.png"),
+    "title": "Kurzajka",
     "message": content
   })
 }
@@ -55,11 +55,7 @@ function handleMessage(message, sender, sendResponse) {
     sendResponse({type: "search_off", autoreg: autoregEnabled})
 
     if (notifyEnabled)
-      notify(browser.i18n.getMessage("visitFoundTitle"),
-              message.data.service + "\n" +
-              message.data.date + " " + message.data.hour + "\n" +
-              message.data.venue + "\n" +
-              message.data.doctor)
+      notify(browser.i18n.getMessage("visitFoundTitle"))
 
     // Reset to default values
     notifyEnabled = defaults.notify
@@ -68,14 +64,9 @@ function handleMessage(message, sender, sendResponse) {
   }
 
   if (message.type === "autoreg_finished") {
-    if (notifyEnabled) {
+    if (notifyEnabled)
       notify(browser.i18n.getMessage(
-              message.success ? "autoregSuccessTitle" : "autoregErrorTitle"),
-              message.data.service + "\n" +
-              message.data.date + " " + message.data.hour + "\n" +
-              message.data.venue + "\n" +
-              message.data.doctor)
-    }
+        message.success ? "autoregSuccessTitle" : "autoregErrorTitle"))
     return
   }
 
