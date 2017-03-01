@@ -37,5 +37,11 @@
   },
   "autoReservationOption": {
     "message": "Auto rezerwacja"
+  },
+  "soundOption" : {
+    "message": "Odtwarzaj dźwiek"
+  },
+  "notifyOption" : {
+    "message": "Powiadomienia na pulpit"
   }
 }

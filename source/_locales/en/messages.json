@@ -37,5 +37,11 @@
   },
   "autoReservationOption": {
     "message": "Book a consultation"
+  },
+  "soundOption" : {
+    "message": "Play a sound"
+  },
+  "notifyOption" : {
+    "message": "Desktop notifications"
   }
 }

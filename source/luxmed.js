@@ -233,22 +233,15 @@ function closePopup() {
     const closeButton = document.querySelector("button._popupClose")
     if (closeButton)
       closeButton.click()
-  }, 1000)
-}
-
-function playSound() {
-  const audio = new Audio(browser.extension.getURL("res/music.mp3"))
-  audio.play()
+  }, 500)
 }
 
 function handleMessage(message) {
   // Handle messages received from browser script
-  //console.log("handleMessage: ", message)
   const visits = getVisits()
   if (message.type === "search_on") {
     if (visits.length > 0) {
       visits[0].row.style.border = "10px solid magenta"
-      playSound()
       showToolbar("visit-found")
       sendMessage({type: "search_finished"})
     } else {
@@ -288,4 +281,4 @@ function init() {
   sendMessage({type: "check_search"})
 }
 
-window.onload = init()
+window.setTimeout(init, 500)

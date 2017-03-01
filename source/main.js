@@ -15,28 +15,37 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-const defaults = {
-  notify: true,
-  autoreg: false
-}
-
 var searchEnabled = false
-var notifyEnabled = defaults.notify
-var autoregEnabled = defaults.autoreg
+var autoregEnabled = false
 
 function notify(content) {
-  // Show desktop notification
-  browser.notifications.create({
-    "type": "basic",
-    "iconUrl": browser.extension.getURL("res/kurzajka-48.png"),
-    "title": "Kurzajka",
-    "message": content
+  // Show desktop notification if enabled in settings
+  browser.storage.local.get("notify").then((result)=>{
+    const notifyEnabled = result.notify == undefined ? true : result.notify
+    if (notifyEnabled) {
+      browser.notifications.create({
+        "type": "basic",
+        "iconUrl": browser.extension.getURL("res/kurzajka-48.png"),
+        "title": "Kurzajka",
+        "message": content
+      })
+    }
+  })
+}
+
+function playSound() {
+  // Play sound if enabled in settings
+  browser.storage.local.get("sound").then((result)=>{
+    const soundEnabled = result.sound == undefined ? true : result.sound
+    if (soundEnabled) {
+      const audio = new Audio(browser.extension.getURL("res/music.mp3"))
+      audio.play()
+    }
   })
 }
 
 function handleMessage(message, sender, sendResponse) {
   // Handle messages received from content script
-
   if (message.type === "start_search") {
     searchEnabled = true
     autoregEnabled = message.autoreg
@@ -53,20 +62,14 @@ function handleMessage(message, sender, sendResponse) {
   if (message.type === "search_finished") {
     searchEnabled = false
     sendResponse({type: "search_off", autoreg: autoregEnabled})
-
-    if (notifyEnabled)
-      notify(browser.i18n.getMessage("visitFoundTitle"))
-
-    // Reset to default values
-    notifyEnabled = defaults.notify
-    autoregEnabled = defaults.autoreg
+    notify(browser.i18n.getMessage("visitFoundTitle"))
+    playSound()
     return
   }
 
   if (message.type === "autoreg_finished") {
-    if (notifyEnabled)
-      notify(browser.i18n.getMessage(
-        message.success ? "autoregSuccessTitle" : "autoregErrorTitle"))
+    notify(browser.i18n.getMessage(
+      message.success ? "autoregSuccessTitle" : "autoregErrorTitle"))
     return
   }
 
