@@ -3,8 +3,8 @@
     "{c2134a21-b5d8-4f1e-be43-08c3d0694926}": {
       "updates": [
         {
-          "version": "1.4",
-          "update_link": "https://github.com/mkiol/Kurzajka/raw/master/xpi/kurzajka-1.4-an%2Bfx.xpi",
+          "version": "1.5",
+          "update_link": "https://github.com/mkiol/Kurzajka/raw/master/xpi/kurzajka-1.5-an%2Bfx.xpi",
           "applications": {
             "gecko": {
                 "strict_min_version": "48.0"
