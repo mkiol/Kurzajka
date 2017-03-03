@@ -216,8 +216,9 @@ function autoReg(visit) {
     window.setTimeout(()=>{
       const acceptCheck = document.getElementById("cbAccept")
       const acceptButton = document.getElementById("okButton")
-      if (acceptCheck && acceptButton) {
+      if (acceptCheck)
         acceptCheck.click()
+      if (acceptButton) {
         acceptButton.click()
         resolve()
       } else {
@@ -236,18 +237,26 @@ function closePopup() {
   }, 500)
 }
 
+function handleVisitFound(visit) {
+  visit.row.style.border = "10px solid magenta"
+  showToolbar("visit-found")
+}
+
+function handleVisitNotFound() {
+  closePopup()
+  showToolbar("stop-search-question")
+  timer = window.setTimeout(refresh, 10000)
+}
+
 function handleMessage(message) {
   // Handle messages received from browser script
   const visits = getVisits()
   if (message.type === "search_on") {
     if (visits.length > 0) {
-      visits[0].row.style.border = "10px solid magenta"
-      showToolbar("visit-found")
+      handleVisitFound(visits[0])
       sendMessage({type: "search_finished"})
     } else {
-      closePopup()
-      showToolbar("stop-search-question")
-      timer = window.setTimeout(refresh, 10000)
+      handleVisitNotFound()
     }
   } else if (message.type === "search_off") {
     window.clearTimeout(timer)
