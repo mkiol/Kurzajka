@@ -3,7 +3,7 @@
     "message": "Automates appointment booking for private medical clinics in Poland."
   },
   "startSearchQuestion": {
-    "message": "You didn't find any visit."
+    "message": "You didn't find a suitable appointment time."
   },
   "acceptAutoregQuestion": {
     "message": "Kurzajka will automatically book the earliest available consultation appointment on your behalf. Please note that in case the conditions set out in your healthcare agreement are not met, you will be required to make a payment before the visit. By clicking \"I understand and accept\", you confirm that you fully understand all consequences of Kurzajka's auto booking functionality and you also confirm that you don't have a referral for this service."

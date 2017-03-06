@@ -44,8 +44,26 @@ function playSound() {
   })
 }
 
+function highlightTab(tab) {
+  // Highlight tab
+  // Doesn't work on Android
+  /*try {
+    browser.tabs.highlight({windowId: tab.windowId, tabs: tab.index}).then((data)=>{
+      console.log(data)
+    })
+  } catch (e) {
+    console.log(`Catch Error: ${e.message}`)
+  }*/
+}
+
 function handleMessage(message, sender, sendResponse) {
   // Handle messages received from content script
+  if (message.type === "cancel_search") {
+    searchEnabled = false
+    autoregEnabled = false
+    return
+  }
+
   if (message.type === "start_search") {
     searchEnabled = true
     autoregEnabled = message.autoreg
@@ -64,6 +82,7 @@ function handleMessage(message, sender, sendResponse) {
     sendResponse({type: "search_off", autoreg: autoregEnabled})
     notify(browser.i18n.getMessage("visitFoundTitle"))
     playSound()
+    highlightTab(sender.tab)
     return
   }
 

@@ -3,7 +3,7 @@
     "message": "Automatyzuje rezerwacje wizyty w prywatnych lecznicach w Polsce."
   },
   "startSearchQuestion": {
-    "message": "Nie znalazłeś żadnego terminu wizyty."
+    "message": "Nie znalazłeś pasującego terminu wizyty."
   },
   "acceptAutoregQuestion": {
     "message": "Zaznaczyłeś opcję \"Auto rezerwacja\". Oznacza to, że Kurzajka, w twoim imieniu, automatycznie zarezerwuje najbliższy wolny termin konsultacji. Realizacja usługi odbędzie się zgodnie z umową. Prosimy o przygotowanie się na ewentualną płatność w dniu planowanej wizyty, jeśli nie zostaną spełnione warunki określone w umowie. Klikając \"Rozumiem i akceptuję\", potwierdzasz, że w pełni rozumiesz wszystkie konsekwencje funkcji automatycznego rezerwowania Kurzajki oraz jednocześnie potwierdzasz, że nie posiadasz na tę usługę skierowania od lekarza."

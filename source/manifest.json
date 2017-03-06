@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Kurzajka",
-  "version": "1.5",
+  "version": "1.6",
   "author": "Michal Kosciesza <michal@mkiol.net>",
   "description": "__MSG_extensionDescription__",
   "icons": {
@@ -20,8 +20,13 @@
 
   "content_scripts": [
     {
-      "matches": ["https://portalpacjenta.luxmed.pl/PatientPortal/Reservations/Reservation/*"],
-      "js": ["luxmed.js"]
+      "matches": [
+        "https://portalpacjenta.luxmed.pl/PatientPortal/Reservations/Reservation/*"],
+      "js": ["luxmed.js", "content-tools.js"]
+    },
+    {
+      "matches": ["https://mol.medicover.pl/MyVisits*"],
+      "js": ["medicover.js", "content-tools.js"]
     }
   ],
 

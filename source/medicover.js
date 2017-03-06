@@ -21,63 +21,96 @@ function ready() {
   // Return Promise that resolves when page is not busy
   return new Promise((resolve, reject)=>{
     const timerID = window.setInterval(()=>{
-      const ele = document.getElementById("spinnerDiv")
-      if (ele != null) {
-        if (ele.style.display == "none") {
-          window.clearInterval(timerID)
-          resolve()
-        }
+      const ele = document.querySelector("div.ajax-loader")
+      if (ele == null) {
+        window.clearInterval(timerID)
+        resolve()
       }
     }, 100)
   })
 }
 
+function armSearchButton() {
+  // Return Promise that resolves then event listner for search
+  // submit form is added
+  return new Promise((resolve, reject)=>{
+    const timerID = window.setInterval(()=>{
+      const form = document.querySelector("#advancedSearchForm div form")
+      if (form != null) {
+        window.clearInterval(timerID)
+        form.addEventListener("submit", init2, false)
+        resolve()
+      }
+    }, 300)
+  })
+}
+
 function isSearchPage() {
   // Return true if page contains search results
-  return document.querySelector("div.tableListGroup") != null
+  const div = document.getElementById("freeSlotsResult")
+  if (div != null) {
+    return div.parentNode.style.display != "none"
+  }
+  return false
+}
+
+function refresh() {
+  // Refresh search results
+  hideToolbar()
+  const but = document.querySelector("div.search-button button[type=submit]")
+  if (but != null)
+    but.click()
 }
 
 function getVisits() {
   // Return array that contains all visites that have been found
+  const reqestedDateInput = document.querySelector("div.date input.form-control")
+  let reqestedDate = ""
+  if (reqestedDateInput != null) {
+    reqestedDate = reqestedDateInput.value
+    if (reqestedDate == "") {
+      console.log("Error: unknown reqestedDate")
+      return
+    }
+  } else {
+    console.log("Error: unknown reqestedDateInput")
+    return
+  }
+
   const visits = []
-  const liList = document.querySelectorAll("ul.tableList li")
-  for(let i = 0, l = liList.length; i < l; i++) {
-    const date = liList[i].querySelector("div.title").textContent
-    const trList = liList[i].querySelectorAll("tbody tr")
-    for(let i = 0, l = trList.length; i < l; i++) {
-      const tdList = trList[i].querySelectorAll("td")
-      if (tdList.length > 1) {
-        const divList = tdList[1].querySelectorAll("div")
-        if (divList.length > 2) {
-          const visit = {
-            date: date,
-            hour: tdList[0].getAttribute("data-sort").trim(),
-            button: tdList[0].querySelector("a.button"),
-            box: trList[i],
-            doctor: divList[0].textContent.trim(),
-            service: divList[1].textContent.trim(),
-            venue: divList[2].textContent.trim()
-          }
-          visits.push(visit)
-        }
+  const days = document.querySelectorAll("#freeSlotsResult div.results div.panel div.row")
+  for(let i = 0, l = days.length; i < l; i++) {
+    const boxes = days[i].querySelectorAll(".freeSlot-box")
+    for(let i = 0, l = boxes.length; i < l; i++) {
+      const head = boxes[i].querySelector(".freeSlot-head")
+      const content = boxes[i].querySelector(".freeSlot-content")
+      const footer = boxes[i].querySelector(".freeSlot-footer")
+
+      const date = head.querySelector("span:nth-child(1)").textContent.trim()
+      if (date != reqestedDate)
+        break
+
+      const visit = {
+        date: date,
+        hour: head.querySelector("span:nth-child(2)").textContent.trim(),
+        button: footer.querySelector("a.btn"),
+        box: boxes[i],
+        doctor: content.querySelector(".doctorName").textContent.trim(),
+        service: content.querySelector(".speciality").textContent.trim(),
+        venue: content.querySelector(".clinicName").textContent.trim()
       }
+      visits.push(visit)
     }
   }
   return visits
 }
 
-function refresh() {
-  // Refresh search results
-  const but = document.querySelector("#advancedResevation input[type=submit]")
-  if (but != null)
-    but.click()
-}
 
 function autoReg(visit) {
   // Return promise that will do auto-registration
   visit.button.click()
   return new Promise((resolve, reject)=>{
-    ready().then(()=>{
+    /*window.setTimeout(()=>{
       const acceptCheck = document.getElementById("cbAccept")
       const acceptButton = document.getElementById("okButton")
       if (acceptCheck)
@@ -88,19 +121,22 @@ function autoReg(visit) {
       } else {
         reject()
       }
-    })
+    }, 2000)*/
+    resolve()
   })
 }
 
 function closePopup() {
   // Close popup window
-  const closeButton = document.querySelector("button._popupClose")
-  if (closeButton)
-    closeButton.click()
+  // Only for luxmed
 }
 
 function handleMessage(message) {
   // Handle messages received from browser script
+
+  if (message == null)
+    return
+
   const visits = getVisits()
   if (message.type === "search_on") {
     if (visits.length > 0) {
@@ -137,14 +173,26 @@ function sendMessage(message) {
   browser.runtime.sendMessage(message).then(handleMessage)
 }
 
-function init() {
+function init2() {
+  console.log("init2")
+  hideToolbar()
   ready().then(()=>{
+    console.log("isSearchPage:",isSearchPage())
     if (isSearchPage()) {
       sendMessage({type: "check_search"})
     } else {
       sendMessage({type: "cancel_search"})
     }
   })
+}
+
+function init() {
+  console.log("init")
+  armSearchButton().then(()=>{
+    console.log("Search button is armed!")
+  })
+
+  init2()
 }
 
 init()
