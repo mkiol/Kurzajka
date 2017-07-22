@@ -99,6 +99,11 @@ function closePopup() {
     closeButton.click()
 }
 
+function randomRefreshTime() {
+  // Return random time im ms for page refresh
+  return Math.floor(Math.random() * 25000) + 5000
+}
+
 function handleMessage(message) {
   // Handle messages received from browser script
   const visits = getVisits()
@@ -110,7 +115,7 @@ function handleMessage(message) {
     } else {
       closePopup()
       showToolbar("stop-search-question")
-      timer = window.setTimeout(refresh, 10000)
+      timer = window.setTimeout(refresh, randomRefreshTime())
     }
   } else if (message.type === "search_off") {
     window.clearTimeout(timer)
