@@ -43,5 +43,14 @@
   },
   "notifyOption" : {
     "message": "Powiadomienia na pulpit"
+  },
+  "optionsTitle" : {
+    "message": "Ustawienia"
+  },
+  "changelogTitle" : {
+    "message": "Lista zmian"
+  },
+  "changelogBody" : {
+    "message": "<p>Wersja 1.7</p><p>- losowy czas po jakim ponawiane jest wyszukiwanie (5-30s)</p><p>- ikona Kurzajki w powiadomieniach</p><p>- lista zmian na stronie z ustawieniami</p>"
   }
 }

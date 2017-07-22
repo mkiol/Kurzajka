@@ -15,7 +15,10 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-function init() {
+function initOptions() {
+  const p = document.getElementById("optionsTitle")
+  p.textContent = browser.i18n.getMessage("optionsTitle")
+
   // Sound checkbox
   const boxSound = document.createElement("input")
   boxSound.type = "checkbox"
@@ -54,6 +57,19 @@ function init() {
     boxSound.checked = result.sound == undefined ? true : result.sound
     boxNotify.checked = result.notify == undefined ? true : result.notify
   })
+}
+
+function initChangelog() {
+  const p = document.getElementById("changelogTitle")
+  p.textContent = browser.i18n.getMessage("changelogTitle")
+
+  const body = document.getElementById("changelogBody")
+  body.innerHTML = browser.i18n.getMessage("changelogBody")
+}
+
+function init() {
+  initOptions()
+  initChangelog()
 }
 
 document.addEventListener("DOMContentLoaded", init)

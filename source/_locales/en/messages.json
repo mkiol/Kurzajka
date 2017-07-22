@@ -43,5 +43,14 @@
   },
   "notifyOption" : {
     "message": "Desktop notifications"
+  },
+  "optionsTitle" : {
+    "message": "Settings"
+  },
+  "changelogTitle" : {
+    "message": "Changelog"
+  },
+  "changelogBody" : {
+    "message": "<p>Version 1.7</p><p>- random search repeat time (5-30s)</p><p>- Kurzajka icon in notifications</p><p>- changelog in the settings pane</p>"
   }
 }
